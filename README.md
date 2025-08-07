@@ -32,7 +32,7 @@ flutter pub get
 
 ```
 dart
-import 'package:native_log/native_log.dart';
+import 'package:native_log_plus/native_log.dart';
 
 // 直接打印日志
 customLog(LogLevel.info, 'MyTag', '这是一条信息日志');
