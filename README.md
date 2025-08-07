@@ -1,6 +1,6 @@
 # native_log
 
-[![pub package](https://img.shields.io/pub/v/native_log.svg)](https://pub.dev/packages/native_log)
+[![pub package](https://img.shields.io/pub/v/native_log_plus.svg)](https://pub.dev/packages/native_log_plus)
 
 调用原生日志函数的 Flutter 插件，支持 Android 和 iOS 平台。该插件通过 FFI 直接调用原生系统日志功能，提供高性能的日志记录能力。
 
@@ -19,7 +19,7 @@
 
 ```yaml
 dependencies:
-  native_log: ^0.0.1
+  native_log_plus: ^0.0.1
 ```
 然后运行：
 
