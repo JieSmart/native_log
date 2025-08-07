@@ -5,7 +5,6 @@ repository: https://github.com/JieSmart/native_log
 issue_tracker: https://github.com/JieSmart/native_log/issues
 topics:
   - log
-  - native_log
 
 environment:
   sdk: ^3.7.0
