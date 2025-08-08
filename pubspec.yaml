@@ -1,6 +1,6 @@
 name: native_log_plus
 description: "调用原生日志函数"
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/JieSmart/native_log
 issue_tracker: https://github.com/JieSmart/native_log/issues
 topics:

@@ -131,7 +131,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
-  native_log:
+  native_log_plus:
     dependency: "direct main"
     description:
       path: ".."

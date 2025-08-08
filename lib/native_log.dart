@@ -28,7 +28,6 @@ final Pointer<Char> _messageBuffer = _bindings.malloc(_MAX_MESSAGE_LENGTH).cast<
 
 // 添加队列相关变量
 final List<_LogEntry> _logQueue = [];
-bool _useQueue = false;
 bool _isProcessing = false;
 
 // 日志条目类
@@ -40,26 +39,10 @@ class _LogEntry {
   _LogEntry(this.level, this.tag, this.message);
 }
 
-// 设置是否使用队列进行日志打印
-void setUseQueue(bool useQueue) {
-  _useQueue = useQueue;
-}
-
 // 添加调用 native custom_log 函数的方法
 void customLog(int level, String tag, String message) {
-  if (_useQueue) {
-    // 添加到队列中
-    _logQueue.add(_LogEntry(level, tag, message));
-    // 如果没有在处理，则开始处理
-    if (!_isProcessing) {
-      _processLogQueue();
-    }
-    // 添加Flutter控制台日志输出
-    developer.log(message, name: tag, level: level);
-  } else {
-    // 直接打印日志
-    _printLog(level, tag, message);
-  }
+  // 直接打印日志
+  _printLog(level, tag, message);
 }
 
 // 新增: 专门用于队列模式的日志打印方法
@@ -161,7 +144,22 @@ void _printLog(int level, String tag, String message) {
       }
     }
   }
-  developer.log(message, name: tag, level: level);
+  
+  // 添加与iOS原生日志相同格式的Flutter开发者日志
+  final logLevelMap = {
+    0: 'V',
+    1: 'D',
+    2: 'I',
+    3: 'W',
+    4: 'E',
+    5: 'F'
+  };
+  
+  final now = DateTime.now();
+  final timeStr = "${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+  final levelStr = logLevelMap[level] ?? 'D';
+  
+  developer.log(message, name: "$timeStr] [$levelStr] [$tag", level: level);
 }
 
 const String _libName = 'native_log';
@@ -169,7 +167,7 @@ const String _libName = 'native_log';
 /// The dynamic library in which the symbols for [NativeLogBindings] can be found.
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
-    return DynamicLibrary.open('$_libName.framework/$_libName');
+    return DynamicLibrary.open('${_libName}_plus.framework/${_libName}_plus');
   }
   if (Platform.isAndroid || Platform.isLinux) {
     return DynamicLibrary.open('lib$_libName.so');
