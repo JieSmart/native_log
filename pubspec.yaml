@@ -1,6 +1,6 @@
 name: native_log_plus
-description: "调用原生日志函数"
-version: 0.0.2
+description: "调用原生日志函数的 Flutter 插件，支持 Android 和 iOS 平台。该插件通过 FFI 直接调用原生系统日志功能，提供高性能的日志记录能力。"
+version: 0.0.3
 repository: https://github.com/JieSmart/native_log
 issue_tracker: https://github.com/JieSmart/native_log/issues
 topics:

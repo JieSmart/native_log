@@ -53,8 +53,6 @@ void customLogWithQueue(int level, String tag, String message) {
   if (!_isProcessing) {
     _processLogQueue();
   }
-  // 添加Flutter控制台日志输出
-  developer.log(message, name: tag, level: level);
 }
 
 // 处理日志队列
@@ -144,6 +142,8 @@ void _printLog(int level, String tag, String message) {
       }
     }
   }
+
+  if (Platform.isAndroid) return;
   
   // 添加与iOS原生日志相同格式的Flutter开发者日志
   final logLevelMap = {
@@ -154,11 +154,12 @@ void _printLog(int level, String tag, String message) {
     4: 'E',
     5: 'F'
   };
-  
+
   final now = DateTime.now();
-  final timeStr = "${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+  // 修改时间格式为与native端一致的格式: YYYY-MM-DDTHH:MM:SS.SSS
+  final timeStr = "${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}.${(now.millisecond).toString().padLeft(3, '0')}";
   final levelStr = logLevelMap[level] ?? 'D';
-  
+
   developer.log(message, name: "$timeStr] [$levelStr] [$tag", level: level);
 }
 

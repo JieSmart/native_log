@@ -61,20 +61,34 @@ FFI_PLUGIN_EXPORT void custom_log(int level, const char* tag, const char* messag
     time_t now;
     time(&now);
     struct tm* timeinfo = localtime(&now);
-    char time_buffer[20];
+    // 修改时间格式为不带时区的格式
+    char time_buffer[25];
     strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+    // 添加毫秒信息
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    int millis = tv.tv_usec / 1000;
+    char final_time_buffer[30];
+    snprintf(final_time_buffer, sizeof(final_time_buffer), "%s.%03d", time_buffer, millis);
     
-    os_log_with_type(OS_LOG_DEFAULT, log_type, "[%{public}s] [%{public}s] [%{public}s] %{public}s", time_buffer, log_type_str, tag, message);
+    os_log_with_type(OS_LOG_DEFAULT, log_type, "[%{public}s] [%{public}s] [%{public}s] %{public}s", final_time_buffer, log_type_str, tag, message);
 #else
     // Fallback for other platforms
     // 获取当前时间
     time_t now;
     time(&now);
     struct tm* timeinfo = localtime(&now);
-    char time_buffer[20];
+    // 修改时间格式为不带时区的格式
+    char time_buffer[25];
     strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+    // 添加毫秒信息
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    int millis = tv.tv_usec / 1000;
+    char final_time_buffer[30];
+    snprintf(final_time_buffer, sizeof(final_time_buffer), "%s.%03d", time_buffer, millis);
     
-    printf("[%s] [%s] %s\n", time_buffer, tag, message);
+    printf("[%s] [%s] %s\n", final_time_buffer, tag, message);
     fflush(stdout); // 确保输出立即刷新
 #endif
 }

@@ -1,3 +1,11 @@
+## 0.0.3
+
+* feat(log): 升级日志记录功能
+* feat: 修改时间格式为不带时区的格式，与 native 日志格式统一
+* feat: 添加毫秒信息，提高日志精度
+* feat: 统一 Flutter 和 native 的日志格式
+* fix: 修复 Android 平台的日志输出问题
+
 ## 0.0.2
 
 * feat: 优化日志类型标识显示，统一Android和iOS平台的显示格式
